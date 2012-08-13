@@ -82,7 +82,8 @@ class WebFault(Exception):
 # Logging
 #
 
-class Repr:
+class Repr(object):
+    __slots__ = "x",
     def __init__(self, x):
         self.x = x
     def __str__(self):
