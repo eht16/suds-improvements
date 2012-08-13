@@ -124,9 +124,12 @@ class ServiceDefinition:
         i = 0
         namespaces.sort()
         for u in namespaces:
-            p = self.nextprefix()
-            ns = (p, u)
-            self.prefixes.append(ns)
+            try:
+                p = self.getprefix(u)
+            except Exception, e:
+                p = self.nextprefix()
+                ns = (p, u)
+                self.prefixes.append(ns)
             
     def paramtypes(self):
         """ get all parameter types """
@@ -170,6 +173,8 @@ class ServiceDefinition:
         @rtype: (prefix, uri).
         """
         for ns in Namespace.all:
+            if u == ns[1]: return ns[0]
+        for ns in self.wsdl.root.nsprefixes.items():
             if u == ns[1]: return ns[0]
         for ns in self.prefixes:
             if u == ns[1]: return ns[0]
