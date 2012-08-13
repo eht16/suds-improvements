@@ -128,7 +128,7 @@ class Object:
 
     def __init__(self):
         self.__keylist__ = []
-        self.__printer__ = Printer()
+        self.__printer__ = _shared_printer
         self.__metadata__ = Metadata()
 
     def __setattr__(self, name, value):
@@ -217,7 +217,7 @@ class Iter:
 class Metadata(Object):
     def __init__(self):
         self.__keylist__ = []
-        self.__printer__ = Printer()
+        self.__printer__ = _shared_printer
 
 
 class Facade(Object):
@@ -389,3 +389,5 @@ class Printer:
         except:
             pass
         return False
+
+_shared_printer = Printer()
