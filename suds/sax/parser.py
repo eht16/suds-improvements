@@ -100,7 +100,7 @@ class Handler(ContentHandler):
         return self.nodes.pop()
  
     def top(self):
-        return self.nodes[len(self.nodes)-1]
+        return self.nodes[-1]
 
 
 class Parser:
