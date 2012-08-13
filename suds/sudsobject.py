@@ -132,11 +132,12 @@ class Object:
         self.__metadata__ = Metadata()
 
     def __setattr__(self, name, value):
-        builtin =  name.startswith('__') and name.endswith('__')
-        if not builtin and \
-            name not in self.__keylist__:
-            self.__keylist__.append(name)
-        self.__dict__[name] = value
+        d = self.__dict__
+        if name not in d:
+            builtin = name.startswith('__') and name.endswith('__')
+            if not builtin:
+                self.__keylist__.append(name)
+        d[name] = value
         
     def __delattr__(self, name):
         try:
