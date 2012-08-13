@@ -30,22 +30,36 @@ class Text(unicode):
     @ivar escaped: The (optional) XML special character escaped flag.
     @type escaped: bool
     """
-    __slots__ = ('lang', 'escaped',)
+    __slots__ = ('_lang', '_escaped',)
+
+    _EMPTY = None
     
     @classmethod
     def __valid(cls, *args):
         return ( len(args) and args[0] is not None )
     
     def __new__(cls, *args, **kwargs):
-        if cls.__valid(*args):
-            lang = kwargs.pop('lang', None)
-            escaped = kwargs.pop('escaped', False)
-            result = super(Text, cls).__new__(cls, *args, **kwargs)
-            result.lang = lang
-            result.escaped = escaped
+        v = args[0]
+        if v:
+            if kwargs:
+                lang = kwargs.pop('lang', None)
+                escaped = kwargs.pop('escaped', False)
+                result = unicode.__new__(cls, *args, **kwargs)
+                result._lang = lang
+                result._escaped = escaped
+                return result
+            else:
+                return unicode.__new__(cls, *args)
         else:
-            result = None
-        return result
+            return None if v is None else cls._EMPTY
+
+    @property
+    def lang(self):
+        return getattr(self, "_lang", None)
+
+    @property
+    def escaped(self):
+        return getattr(self, "_escaped", False)
     
     def escape(self):
         """
@@ -90,14 +104,13 @@ class Text(unicode):
         return ''.join(s)
     
     def __getstate__(self):
-        state = {}
-        for k in self.__slots__:
-            state[k] = getattr(self, k)
-        return state
+        return {"lang": self.lang, "escaped": self.escaped}
     
     def __setstate__(self, state):
-        for k in self.__slots__:
-            setattr(self, k, state[k])
+        self.lang = state["lang"]
+        self.escaped = state["escaped"]
+
+Text._EMPTY = unicode.__new__(Text)
     
     
 class Raw(Text):
