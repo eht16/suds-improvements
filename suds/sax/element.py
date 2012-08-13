@@ -30,7 +30,7 @@ if sys.version_info < (2, 4, 0):
 
 log = getLogger(__name__)
 
-class Element:
+class Element(object):
     """
     An XML element object.
     @ivar parent: The node containing this attribute
@@ -52,6 +52,8 @@ class Element:
     @cvar matcher: A collection of I{lambda} for string matching.
     @cvar specialprefixes: A dictionary of builtin-special prefixes.
     """
+    
+    __slots__ = ('expns', 'nsprefixes', 'attributes', 'text', 'parent', 'children', 'prefix', 'name', 'charbuffer')
 
     matcher = \
     {

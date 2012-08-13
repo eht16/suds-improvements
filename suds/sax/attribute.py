@@ -26,7 +26,7 @@ from suds.sax.text import Text
 
 log = getLogger(__name__)
 
-class Attribute:
+class Attribute(object):
     """
     An XML attribute object.
     @ivar parent: The node containing this attribute
@@ -38,6 +38,9 @@ class Attribute:
     @ivar value: The attribute's value
     @type value: basestring
     """
+    
+    __slots__ = ('parent', 'prefix', 'name', 'text', 'value')
+    
     def __init__(self, name, value=None):
         """
         @param name: The attribute's name with I{optional} namespace prefix.
