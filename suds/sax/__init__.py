@@ -46,9 +46,8 @@ def splitPrefix(name):
     @return: A tuple containing the (2) parts of I{name}
     @rtype: (I{prefix}, I{name}) 
     """
-    if isinstance(name, basestring) \
-        and ':' in name:
-            return tuple(name.split(':', 1))
+    if ':' in name:
+        return tuple(name.split(':', 1))
     else:
         return (None, name)
 
