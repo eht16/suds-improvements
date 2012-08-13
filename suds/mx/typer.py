@@ -105,7 +105,7 @@ class Typer:
         @type ns: (prefix, uri)
         @return: The I{ns} with a new prefix.
         """
-        for n in range(1, 1024):
+        for n in xrange(1, 1024):
             p = 'ns%d' % n
             u = node.resolvePrefix(p, default=None)
             if u is None or u == ns[1]:

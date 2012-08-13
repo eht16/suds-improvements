@@ -155,7 +155,7 @@ class ServiceDefinition:
         """
         used = [ns[0] for ns in self.prefixes]
         used += [ns[0] for ns in self.wsdl.root.nsprefixes.items()]
-        for n in range(0,1024):
+        for n in xrange(0,1024):
             p = 'ns%d'%n
             if p not in used:
                 return p
